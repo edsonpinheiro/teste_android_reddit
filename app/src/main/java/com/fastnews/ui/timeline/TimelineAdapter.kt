@@ -3,12 +3,13 @@ package com.fastnews.ui.timeline
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.fastnews.R
 import com.fastnews.service.model.PostData
 import kotlinx.android.synthetic.main.include_item_timeline_thumbnail.view.*
 
-class TimelineAdapter(val onClickItem: (PostData, ImageView) -> Unit) : RecyclerView.Adapter<TimelineItemViewHolder>() {
+class TimelineAdapter(val onClickItem: (PostData, ImageView) -> Unit) : PagedListAdapter<PostData, TimelineItemViewHolder>(DiffUtilCallback()) {
 
     var items: List<PostData> = emptyList()
 
