@@ -11,6 +11,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fastnews.R
@@ -19,7 +22,6 @@ import com.fastnews.service.model.PostData
 import com.fastnews.ui.detail.DetailFragment.Companion.KEY_POST
 import com.fastnews.viewmodel.PostViewModel
 import kotlinx.android.synthetic.main.fragment_timeline.*
-import kotlinx.android.synthetic.main.include_state_without_conn_timeline.*
 
 
 class TimelineFragment : Fragment() {
@@ -81,13 +83,43 @@ class TimelineFragment : Fragment() {
     }
 
     private fun fetchTimeline() {
-        viewModel.getPosts("", 50).observe(this, Observer<List<PostData>> { posts ->
-            posts.let {
-                adapter.setData(posts)
-                hideProgress()
-                showPosts()
-            }
+        val config = PagedList.Config.Builder()
+            .setPageSize(30)
+            .setEnablePlaceholders(false)
+            .build()
+
+        val liveData = initializedPagedListBuilder(config).build()
+
+        liveData.observe(this, Observer<PagedList<PostData>> { pagedList ->
+            adapter.submitList(pagedList)
+            hideProgress()
+            showPosts()
         })
+        //Métodos antigos
+//        viewModel.getPosts("", 50).observe(this, Observer<List<PostData>> { posts ->
+//            posts.let {
+//                adapter.setData(posts)
+//                hideProgress()
+//                showPosts()
+//            }
+//        })
+    }
+
+    private fun initializedPagedListBuilder(config: PagedList.Config):
+            LivePagedListBuilder<String, PostData> {
+
+        val dataSourceFactory = object : DataSource.Factory<String, PostData>() {
+            override fun create(): DataSource<String, PostData> {
+                return MyDataSource()
+            }
+        }
+        return LivePagedListBuilder<String, PostData>(dataSourceFactory, config)
+//        val database = RedditDb.create(this)
+//        val livePageListBuilder = LivePagedListBuilder<Int, PostData>(
+//            database.postDao().posts(),
+//            config)
+//        livePageListBuilder.setBoundaryCallback(RedditBoundaryCallback(database))
+//        return livePageListBuilder
     }
 
     private fun showPosts() {
