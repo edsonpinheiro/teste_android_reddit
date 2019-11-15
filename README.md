@@ -21,7 +21,7 @@ Utilize as boas práticas de desenvolvimento, e imagine que outras pessoas poder
 A arquitetura de ViewModel do projeto parece estar com algum problema, o projeto não compila.
 -- O problema ocorreu porque a biblioteca OkHttp necessitava da seguinte configuração no build.gradle
 
-'''
+'''kotlin
 android {
 
     (...)
