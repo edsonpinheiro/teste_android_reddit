@@ -95,14 +95,6 @@ class TimelineFragment : Fragment() {
             hideProgress()
             showPosts()
         })
-        //Métodos antigos
-//        viewModel.getPosts("", 50).observe(this, Observer<List<PostData>> { posts ->
-//            posts.let {
-//                adapter.setData(posts)
-//                hideProgress()
-//                showPosts()
-//            }
-//        })
     }
 
     private fun initializedPagedListBuilder(config: PagedList.Config):
@@ -114,12 +106,6 @@ class TimelineFragment : Fragment() {
             }
         }
         return LivePagedListBuilder<String, PostData>(dataSourceFactory, config)
-//        val database = RedditDb.create(this)
-//        val livePageListBuilder = LivePagedListBuilder<Int, PostData>(
-//            database.postDao().posts(),
-//            config)
-//        livePageListBuilder.setBoundaryCallback(RedditBoundaryCallback(database))
-//        return livePageListBuilder
     }
 
     private fun showPosts() {
