@@ -19,9 +19,10 @@ Utilize as boas práticas de desenvolvimento, e imagine que outras pessoas poder
 # Exercícios essenciais
 
 A arquitetura de ViewModel do projeto parece estar com algum problema, o projeto não compila.
+
 -- O problema ocorreu porque a biblioteca OkHttp necessitava da seguinte configuração no build.gradle
 
-'''kotlin
+```
 android {
 
     (...)
@@ -31,7 +32,7 @@ android {
         targetCompatibility = '1.8'
     }
 }
-'''
+```
 
 Infelizmente a resolução das imagens no aplicativo não estão boas, e isso precisa ser arrumado. Por favor, melhore a resolução das imagens, mas lembre-se, performance também é muito importante num aplicativo de notícias. O usuário não quer perder tempo.
 
