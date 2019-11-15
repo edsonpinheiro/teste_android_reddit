@@ -84,7 +84,7 @@ class TimelineFragment : Fragment() {
 
     private fun fetchTimeline() {
         val config = PagedList.Config.Builder()
-            .setPageSize(30)
+            .setPageSize(6)
             .setEnablePlaceholders(false)
             .build()
 

@@ -13,7 +13,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MyDataSource : PageKeyedDataSource<String, PostData>() {
-            private val api = RedditAPI.redditService
+    private val api = RedditAPI.redditService
 
     override fun loadInitial(
         params: LoadInitialParams<String>,
@@ -68,22 +68,22 @@ class MyDataSource : PageKeyedDataSource<String, PostData>() {
         callback: LoadCallback<String, PostData>
     ) {
 
-            api.getPostList(limit = params.requestedLoadSize, before = params.key)
-                .enqueue(object : Callback<PostResponse> {
+        api.getPostList(limit = params.requestedLoadSize, before = params.key)
+            .enqueue(object : Callback<PostResponse> {
 
-                    override fun onFailure(call: Call<PostResponse>?, t: Throwable?) {
-                        Log.e("RedditDataSource", "Failed to fetch data!")
-                    }
+                override fun onFailure(call: Call<PostResponse>?, t: Throwable?) {
+                    Log.e("RedditDataSource", "Failed to fetch data!")
+                }
 
-                    override fun onResponse(
-                        call: Call<PostResponse>?,
-                        response: Response<PostResponse>
-                    ) {
+                override fun onResponse(
+                    call: Call<PostResponse>?,
+                    response: Response<PostResponse>
+                ) {
 
-                        val listing = response.body()?.data
-                        val items = listing?.children?.map { it.data }
-                        callback.onResult(items ?: listOf(), listing?.before)
-                    }
-                })
+                    val listing = response.body()?.data
+                    val items = listing?.children?.map { it.data }
+                    callback.onResult(items ?: listOf(), listing?.before)
+                }
+            })
     }
 }
